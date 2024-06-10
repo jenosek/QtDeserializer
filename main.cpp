@@ -3,8 +3,10 @@
 #include <QDataStream>
 #include <ctype.h>
 #include <QDir>
+#include <tuple>
 
-float* readFile(QString file_path)
+
+std::tuple<int, float*> readFile(QString file_path)
 {
     QFile file(file_path);
     int size;
@@ -13,17 +15,17 @@ float* readFile(QString file_path)
     if(!file.exists())
     {
         qCritical() << "File not found";
-        return nullptr;
+        return std::make_tuple(0, nullptr);
     }
 
     if(!file.open(QIODevice::ReadOnly))
     {
         qCritical() << file.errorString();
-        return nullptr;
+        return std::make_tuple(0, nullptr);
     }
 
     QDataStream stream(&file);
-    stream.setByteOrder(QDataStream::LittleEndian);
+    //stream.setByteOrder(QDataStream::LittleEndian);
 
     stream >> size;
     qInfo() << "Successfully loaded array of size:" << size;
@@ -34,12 +36,11 @@ float* readFile(QString file_path)
     }
 
     file.close();
-    return array;
+    return std::make_tuple(size, array);
 }
 
-void writeFile(QString file_name, float* array)
+void writeFile(QString file_name, float* array, int size)
 {
-    int size = sizeof(array);
     qInfo() << "Items to write: " << size;
     if (size == 0) {
         qInfo() << "Array is empty.";
@@ -50,7 +51,7 @@ void writeFile(QString file_name, float* array)
     if (!QDir("Deserialized_files").exists()) {
         QDir().mkdir("Deserialized_files");
     }
-    file_name = "Deserialized_files/" + file_name;
+    file_name = "Deserialized_files/" + file_name + ".txt";
     QFile file(file_name);
 
     // Quit when file is not accessible
@@ -81,11 +82,12 @@ void writeFile(QString file_name, float* array)
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    float* array;
+    float* array = nullptr;
+    int size = 0;
 
     qInfo() << "Available commands:";
     qInfo() << "read <absolute path to file>";
-    qInfo() << "write <file name.format>";
+    qInfo() << "write <file name>";
     qInfo() << "quit";
 
     QTextStream stream(stdin);
@@ -106,12 +108,14 @@ int main(int argc, char *argv[])
         }
 
         if (command == "READ") {
-            array = readFile(list.at(1));
+            const auto result = readFile(list.at(1));
+            size = std::get<int>(result);
+            array = std::get<float*>(result);
             qInfo() << "Reading - DONE";
         }
 
         if (command == "WRITE") {
-            writeFile(list.at(1), array);
+            writeFile(list.at(1), array, size);
             qInfo() << "Writing - DONE";
         }
         i++;
