@@ -25,7 +25,6 @@ std::tuple<int, float*> readFile(QString file_path)
     }
 
     QDataStream stream(&file);
-    //stream.setByteOrder(QDataStream::LittleEndian);
 
     stream >> size;
     qInfo() << "Successfully loaded array of size:" << size;
@@ -57,15 +56,14 @@ void writeFile(QString file_name, float* array, int size)
     // Quit when file is not accessible
     if(!file.open(QIODevice::WriteOnly))
     {
-        qCritical() << "6. Could not open file!";
+        qCritical() << "Could not open file!";
         qCritical() << file.errorString();
         return;
     }
     // Write simulated data into file
     else {
-        qInfo() << "6. Writing into file" << file_name;
+        qInfo() << "Writing into file" << file_name;
         QTextStream stream(&file);
-        //stream.setByteOrder(QDataStream::LittleEndian);
 
         for (int i = 0; i < size; i++) {
             stream << QString::number(array[i]) + ",";
@@ -73,10 +71,7 @@ void writeFile(QString file_name, float* array, int size)
 
         qInfo() << "File written successfuly";
     }
-
-
     file.close();
-
 }
 
 int main(int argc, char *argv[])
@@ -85,13 +80,15 @@ int main(int argc, char *argv[])
     float* array = nullptr;
     int size = 0;
 
+    qInfo() << "**********************************";
     qInfo() << "Available commands:";
-    qInfo() << "read <absolute path to file>";
+    qInfo() << "read <path to file>";
     qInfo() << "write <file name>";
     qInfo() << "quit";
+    qInfo() << "**********************************";
 
     QTextStream stream(stdin);
-    int i = 0;
+
     while (true) {
         qInfo() << "Enter a command: ";
         QString line = stream.readLine();
@@ -104,6 +101,7 @@ int main(int argc, char *argv[])
         QString command = list.at(0).toUpper();
 
         if (command == "QUIT") {
+            qInfo() << "Quiting...";
             break;
         }
 
@@ -111,15 +109,13 @@ int main(int argc, char *argv[])
             const auto result = readFile(list.at(1));
             size = std::get<int>(result);
             array = std::get<float*>(result);
-            qInfo() << "Reading - DONE";
+            qInfo() << "Reading finished.\n";
         }
 
         if (command == "WRITE") {
             writeFile(list.at(1), array, size);
-            qInfo() << "Writing - DONE";
+            qInfo() << "Writing finished.\n";
         }
-        i++;
     }
-    //return a.exec();
     return 0;
 }
