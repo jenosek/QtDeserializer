@@ -3,7 +3,7 @@
 Tool for transforming QDataStream serialized data from file "A" to text file "B". 
 
 ## How to use
-There here are three avaible commands:
+There here are three available commands:
 ```
 read <path>
 write <path>
@@ -17,7 +17,7 @@ Each of them is quite self-explanatory.
 Paths to files could be written as either absolute or relative (to program build folder). 
 
 > [!IMPORTANT]
->Current version is made for float array. Stream is required to begin with `int` number containing size of the array. It is understandable, that needs from various users may differ, therefore **further customization of source code is advised.**
+>Current version is far away from being foolproof and for float array only. Stream is required to begin with `int` number containing size of the array. It is understandable, that needs from various users may differ, therefore **further customization of source code is advised.**
 
 ## Example
 ```
