@@ -16,5 +16,5 @@ Each of them is quite self-explanatory.
 
 Paths to files could be written as either absolute or relative (to program build folder). 
 
-## ** NOTE: **
-I've made this for float array datatype. Further customization of source code is advised.
+> [!IMPORTANT]
+>I've made this for float array datatype. Further customization of source code is advised.
