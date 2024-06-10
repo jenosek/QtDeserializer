@@ -17,4 +17,4 @@ Each of them is quite self-explanatory.
 Paths to files could be written as either absolute or relative (to program build folder). 
 
 > [!IMPORTANT]
->I've made this for float array datatype. Further customization of source code is advised.
+>Current version is made for float array. Stream is required to begin with `int` number containing size of the array. It is understandable, that needs from various users may differ, therefore **further customization of source code is advised.**
