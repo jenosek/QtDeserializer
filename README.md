@@ -18,3 +18,30 @@ Paths to files could be written as either absolute or relative (to program build
 
 > [!IMPORTANT]
 >Current version is made for float array. Stream is required to begin with `int` number containing size of the array. It is understandable, that needs from various users may differ, therefore **further customization of source code is advised.**
+
+## Example
+```
+**********************************
+Available commands:
+read <path to file>
+write <file name>
+quit
+**********************************
+Enter a command:
+read C:\Documents\Measured_data_1.dat
+Successfully loaded array of size: 4096
+Reading finished.
+
+Enter a command:
+write data 
+Items to write:  4096
+Writing into file "Deserialized_files/data.txt"
+File written successfuly
+Writing finished.
+
+Enter a command:
+quit
+Quiting...
+
+Process exited with code: 0
+```
